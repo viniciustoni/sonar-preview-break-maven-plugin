@@ -46,14 +46,14 @@ public class SonarPreviewBreakMojo extends AbstractMojo {
 
 		try {
 			// Load mavenProject
-			MavenProject mavenProject = getMavenProject();
+			final MavenProject mavenProject = getMavenProject();
 
 			getLog().info(MessageFormat.format("analysis maven project {0}:{1}:{2}", mavenProject.getGroupId(), mavenProject.getArtifactId(),
 					mavenProject.getVersion()));
 
 			// process preview.
-			final AnalysisExecutor analysisExecutor = new AnalysisExecutor(getLog());
-			final ResultAnalysisDTO resultAnalysisDTO = analysisExecutor.processanalysis(createQueryanalysisDTO());
+			final AnalysisExecutor analysisExecutor = new AnalysisExecutor(getLog(), mavenProject);
+			final ResultAnalysisDTO resultAnalysisDTO = analysisExecutor.processAnalysis(createQueryanalysisDTO());
 
 			// process the result
 			processResult(resultAnalysisDTO);
@@ -66,8 +66,8 @@ public class SonarPreviewBreakMojo extends AbstractMojo {
 	@SuppressWarnings("rawtypes")
 	private MavenProject getMavenProject() throws MojoExecutionException {
 
-		Map pluginContext = this.getPluginContext();
-		Object project = pluginContext.get("project");
+		final Map pluginContext = this.getPluginContext();
+		final Object project = pluginContext.get("project");
 		if (!MavenProject.class.isInstance(project)) {
 			throw new MojoExecutionException("Problems to get maven project.");
 		}

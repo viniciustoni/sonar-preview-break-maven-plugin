@@ -27,13 +27,19 @@
 		<commons-collections4.version>4.1</commons-collections4.version>
 		<junit.version>4.12</junit.version>
 		<joda-time.version>2.9.4</joda-time.version>
-		
+		<jgitflow.version>1.0-m5.1</jgitflow.version>
+
 		<!-- Maven dependencies -->
 		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
 		<maven-plugin-plugin.version>3.4</maven-plugin-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
+
+		<!-- Tests dependencies -->
+		<junit.version>4.12</junit.version>
+		<mockito.version>1.10.19</mockito.version>
+		<powermock.version>1.6.5</powermock.version>
 	</properties>
 
 	<scm>
@@ -88,15 +94,38 @@
 			<version>${commons-collections4.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>${joda-time.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -168,6 +197,14 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>${jgitflow.version}</version>
+				<configuration>
+					<noDeploy>true</noDeploy>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
