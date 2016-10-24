@@ -6,8 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.apache.maven.project.MavenProject;
-import org.junit.Assert;
 
 /**
  * Utils.
@@ -34,8 +34,8 @@ public final class SonarUtils {
 	 */
 	public static InputStream getJsonPreviewFile(final MavenProject mavenProject, final String jsonFileName) throws FileNotFoundException {
 
-		Assert.assertNotNull("Maven project is mandatory.", mavenProject);
-		Assert.assertNotNull("Json file name is mandatory.", jsonFileName);
+		Validate.notNull(mavenProject, "Maven project is mandatory.");
+		Validate.notNull(jsonFileName, "Json file name is mandatory.");
 		
 		return new FileInputStream(new File(getSonarWorkDir(mavenProject), jsonFileName));
 		

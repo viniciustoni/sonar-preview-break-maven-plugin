@@ -1,0 +1,18 @@
+{
+	"version": "6.0",
+	"components": [
+		{
+			"key": "br.com.test:audit-client"
+		}
+	],
+	"users": [
+		{
+			"login": "ViniciusToni",
+			"name": "Vinicius Antonio Gai"
+		},
+		{
+			"login": "viniciustoni",
+			"name": "Vinicius Antonio Gai"
+		}
+	]
+}
