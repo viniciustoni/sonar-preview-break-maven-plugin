@@ -99,7 +99,11 @@ public class AnalysisExecutor {
 			throws SonarAnalysisException {
 
 		final long quantity = newIssues.stream().filter(issue -> severity.equals(issue.getSeverity())).count();
-
+		
+		log.debug("Analysis severity: " + severity);
+		log.debug("Analysis qtdMaxIssues: " + qtdMaxIssues);
+		log.debug("Analysis quantity: " + quantity);
+		
 		if (qtdMaxIssues != null && quantity > qtdMaxIssues.longValue()) {
 			throw new SonarAnalysisException(MessageFormat.format(ERROR_MESSAGE_QUALITY_GATES, severity.name(), qtdMaxIssues, quantity));
 		}
@@ -117,9 +121,13 @@ public class AnalysisExecutor {
 		List<IssuesDTO> newIssuesDTOs = null;
 
 		final PreviewDTO previewDTO = getPreviewDTO(jsonFileName);
-
+		
+		log.debug("PreviewDTO: " + previewDTO);
 		if (previewDTO != null && CollectionUtils.isNotEmpty(previewDTO.getIssues())) {
+			
+			log.debug("Tem Issues: ");
 			newIssuesDTOs = previewDTO.getIssues().stream().filter(issue -> issue.isNew()).distinct().collect(Collectors.toList());
+			log.debug("Novas issues: " + newIssuesDTOs);
 		}
 
 		return newIssuesDTOs;
@@ -140,6 +148,8 @@ public class AnalysisExecutor {
 			final ObjectMapper mapper = new ObjectMapper();
 			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
 
+			log.debug("File Name: " + jsonFileName);
+			
 			final InputStream jsonFile = SonarUtils.getJsonPreviewFile(mavenProject, jsonFileName);
 
 			return mapper.readValue(jsonFile, PreviewDTO.class);

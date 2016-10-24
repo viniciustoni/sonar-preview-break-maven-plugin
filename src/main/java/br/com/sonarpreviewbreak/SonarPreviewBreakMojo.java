@@ -88,19 +88,23 @@ public class SonarPreviewBreakMojo extends AbstractMojo {
 		Integer minors = null;
 
 		// convertions
-		if (StringUtils.isNoneBlank(qtdVulnerabilities)) {
+		getLog().debug("qtdVulnerabilities : " + qtdVulnerabilities);
+		if (StringUtils.isNotBlank(qtdVulnerabilities)) {
 			vulnerabilities = Integer.valueOf(qtdVulnerabilities);
 		}
 
-		if (StringUtils.isNoneBlank(qtdBlockers)) {
+		getLog().debug("qtdBlockers : " + qtdBlockers);
+		if (StringUtils.isNotBlank(qtdBlockers)) {
 			blockers = Integer.valueOf(qtdBlockers);
 		}
 
-		if (StringUtils.isNoneBlank(qtdMajors)) {
+		getLog().debug("qtdMajors : " + qtdMajors);
+		if (StringUtils.isNotBlank(qtdMajors)) {
 			majors = Integer.valueOf(qtdMajors);
 		}
 
-		if (StringUtils.isNoneBlank(qtdMinors)) {
+		getLog().debug("qtdMinors : " + qtdMinors);
+		if (StringUtils.isNotBlank(qtdMinors)) {
 			minors = Integer.valueOf(qtdMinors);
 		}
 
