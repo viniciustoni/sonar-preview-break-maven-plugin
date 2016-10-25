@@ -14,36 +14,36 @@ public class QueryAnalysisDTO implements Serializable {
 
 	private final String reportPath;
 
-	private final Integer qtdBlockers;
+	private final Integer maxBlockers;
 
-	private final Integer qtdVulnerabilities;
+	private final Integer maxVulnerabilities;
 
-	private final Integer qtdMajors;
+	private final Integer maxMajors;
 
-	private final Integer qtdMinors;
+	private final Integer maxMinors;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param reportPath
 	 *            Path to preview json
-	 * @param qtdBlockers
+	 * @param maxBlockers
 	 *            Max blockers issues acceptable to compile.
-	 * @param qtdVulnerabilities
+	 * @param maxVulnerabilities
 	 *            vulnerabilities majors issues acceptable to compile.
-	 * @param qtdMajors
+	 * @param maxMajors
 	 *            Max majors issues acceptable to compile.
-	 * @param qtdMinors
+	 * @param maxMinors
 	 *            Max minors issues acceptable to compile.
 	 */
-	public QueryAnalysisDTO(final String reportPath, final Integer qtdBlockers, final Integer qtdVulnerabilities, final Integer qtdMajors,
-			final Integer qtdMinors) {
+	public QueryAnalysisDTO(final String reportPath, final Integer maxBlockers, final Integer maxVulnerabilities, final Integer maxMajors,
+			final Integer maxMinors) {
 		super();
 		this.reportPath = reportPath;
-		this.qtdBlockers = qtdBlockers;
-		this.qtdVulnerabilities = qtdVulnerabilities;
-		this.qtdMajors = qtdMajors;
-		this.qtdMinors = qtdMinors;
+		this.maxBlockers = maxBlockers;
+		this.maxVulnerabilities = maxVulnerabilities;
+		this.maxMajors = maxMajors;
+		this.maxMinors = maxMinors;
 	}
 
 	public String getReportPath() {
@@ -51,24 +51,24 @@ public class QueryAnalysisDTO implements Serializable {
 		return reportPath;
 	}
 
-	public Integer getQtdMajors() {
+	public Integer getMaxMajors() {
 
-		return qtdMajors;
+		return maxMajors;
 	}
 
-	public Integer getQtdBlockers() {
+	public Integer getMaxBlockers() {
 
-		return qtdBlockers;
+		return maxBlockers;
 	}
 
-	public Integer getQtdMinors() {
+	public Integer getMaxMinors() {
 
-		return qtdMinors;
+		return maxMinors;
 	}
 
-	public Integer getQtdVulnerabilities() {
+	public Integer getMaxVulnerabilities() {
 
-		return qtdVulnerabilities;
+		return maxVulnerabilities;
 	}
 
 }

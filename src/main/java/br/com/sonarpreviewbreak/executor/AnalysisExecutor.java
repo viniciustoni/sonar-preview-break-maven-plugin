@@ -69,10 +69,10 @@ public class AnalysisExecutor {
 
 		if (CollectionUtils.isNotEmpty(newIssues)) {
 			try {
-				analysisQualityGates(newIssues, Severity.BLOCKER, queryAnalysisDTO.getQtdBlockers());
-				analysisQualityGates(newIssues, Severity.CRITICAL, queryAnalysisDTO.getQtdVulnerabilities());
-				analysisQualityGates(newIssues, Severity.MAJOR, queryAnalysisDTO.getQtdMajors());
-				analysisQualityGates(newIssues, Severity.MINOR, queryAnalysisDTO.getQtdMinors());
+				analysisQualityGates(newIssues, Severity.BLOCKER, queryAnalysisDTO.getMaxBlockers());
+				analysisQualityGates(newIssues, Severity.CRITICAL, queryAnalysisDTO.getMaxVulnerabilities());
+				analysisQualityGates(newIssues, Severity.MAJOR, queryAnalysisDTO.getMaxMajors());
+				analysisQualityGates(newIssues, Severity.MINOR, queryAnalysisDTO.getMaxMinors());
 			} catch (SonarAnalysisException e) {
 				log.debug("Error to analisys log.", e);
 				resultAnalysisDTO = ResultAnalysisDTO.createError(e.getAnalisysMessage());
@@ -89,23 +89,23 @@ public class AnalysisExecutor {
 	 *            List of new issues.
 	 * @param severity
 	 *            Severity to analysis
-	 * @param qtdMaxIssues
+	 * @param maxMaxIssues
 	 *            Max numbers of issues
 	 * @throws SonarAnalysisException
 	 *             Exception throwing when number of issues greater then max
 	 *             quantity;
 	 */
-	private void analysisQualityGates(final List<IssuesDTO> newIssues, final Severity severity, final Integer qtdMaxIssues)
+	private void analysisQualityGates(final List<IssuesDTO> newIssues, final Severity severity, final Integer maxMaxIssues)
 			throws SonarAnalysisException {
 
 		final long quantity = newIssues.stream().filter(issue -> severity.equals(issue.getSeverity())).count();
 		
 		log.debug("Analysis severity: " + severity);
-		log.debug("Analysis qtdMaxIssues: " + qtdMaxIssues);
+		log.debug("Analysis qtdMaxIssues: " + maxMaxIssues);
 		log.debug("Analysis quantity: " + quantity);
 		
-		if (qtdMaxIssues != null && quantity > qtdMaxIssues.longValue()) {
-			throw new SonarAnalysisException(MessageFormat.format(ERROR_MESSAGE_QUALITY_GATES, severity.name(), qtdMaxIssues, quantity));
+		if (maxMaxIssues != null && quantity > maxMaxIssues.longValue()) {
+			throw new SonarAnalysisException(MessageFormat.format(ERROR_MESSAGE_QUALITY_GATES, severity.name(), maxMaxIssues, quantity));
 		}
 	}
 

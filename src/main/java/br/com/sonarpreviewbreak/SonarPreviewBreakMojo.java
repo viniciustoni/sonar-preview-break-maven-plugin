@@ -28,17 +28,17 @@ public class SonarPreviewBreakMojo extends AbstractMojo {
 	@Parameter(property = "sonar.report.export.path", required = true)
 	protected String reportPath;
 
-	@Parameter(property = "sonar.preview.break.qtdVulnerabilities")
-	protected Integer qtdVulnerabilities;
+	@Parameter(property = "sonar.preview.break.maxVulnerabilities")
+	protected Integer maxVulnerabilities;
 
-	@Parameter(property = "sonar.preview.break.qtdBlockers")
-	protected Integer qtdBlockers;
+	@Parameter(property = "sonar.preview.break.maxBlockers")
+	protected Integer maxBlockers;
 
-	@Parameter(property = "sonar.preview.break.qtdMajors")
-	protected Integer qtdMajors;
+	@Parameter(property = "sonar.preview.break.maxMajors")
+	protected Integer maxMajors;
 
-	@Parameter(property = "sonar.preview.break.qtdMinors")
-	protected Integer qtdMinors;
+	@Parameter(property = "sonar.preview.break.maxMinors")
+	protected Integer maxMinors;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -52,7 +52,7 @@ public class SonarPreviewBreakMojo extends AbstractMojo {
 
 			// process preview.
 			final AnalysisExecutor analysisExecutor = new AnalysisExecutor(getLog(), mavenProject);
-			final ResultAnalysisDTO resultAnalysisDTO = analysisExecutor.processAnalysis(new QueryAnalysisDTO(reportPath, qtdBlockers, qtdVulnerabilities, qtdMajors, qtdMinors));
+			final ResultAnalysisDTO resultAnalysisDTO = analysisExecutor.processAnalysis(new QueryAnalysisDTO(reportPath, maxBlockers, maxVulnerabilities, maxMajors, maxMinors));
 
 			// process the result
 			processResult(resultAnalysisDTO);
