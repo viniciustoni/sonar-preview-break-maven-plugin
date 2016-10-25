@@ -3,7 +3,6 @@ package br.com.sonarpreviewbreak;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -30,16 +29,16 @@ public class SonarPreviewBreakMojo extends AbstractMojo {
 	protected String reportPath;
 
 	@Parameter(property = "sonar.preview.break.qtdVulnerabilities")
-	protected String qtdVulnerabilities;
+	protected Integer qtdVulnerabilities;
 
 	@Parameter(property = "sonar.preview.break.qtdBlockers")
-	protected String qtdBlockers;
+	protected Integer qtdBlockers;
 
 	@Parameter(property = "sonar.preview.break.qtdMajors")
-	protected String qtdMajors;
+	protected Integer qtdMajors;
 
 	@Parameter(property = "sonar.preview.break.qtdMinors")
-	protected String qtdMinors;
+	protected Integer qtdMinors;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -53,7 +52,7 @@ public class SonarPreviewBreakMojo extends AbstractMojo {
 
 			// process preview.
 			final AnalysisExecutor analysisExecutor = new AnalysisExecutor(getLog(), mavenProject);
-			final ResultAnalysisDTO resultAnalysisDTO = analysisExecutor.processAnalysis(createQueryanalysisDTO());
+			final ResultAnalysisDTO resultAnalysisDTO = analysisExecutor.processAnalysis(new QueryAnalysisDTO(reportPath, qtdBlockers, qtdVulnerabilities, qtdMajors, qtdMinors));
 
 			// process the result
 			processResult(resultAnalysisDTO);
@@ -72,44 +71,6 @@ public class SonarPreviewBreakMojo extends AbstractMojo {
 			throw new MojoExecutionException("Problems to get maven project.");
 		}
 		return (MavenProject) project;
-	}
-
-	/**
-	 * Create {@link QueryAnalysisDTO}
-	 * 
-	 * @return {@link QueryAnalysisDTO}
-	 */
-	private QueryAnalysisDTO createQueryanalysisDTO() {
-
-		// Aux
-		Integer vulnerabilities = null;
-		Integer blockers = null;
-		Integer majors = null;
-		Integer minors = null;
-
-		// convertions
-		getLog().debug("qtdVulnerabilities : " + qtdVulnerabilities);
-		if (StringUtils.isNotBlank(qtdVulnerabilities)) {
-			vulnerabilities = Integer.valueOf(qtdVulnerabilities);
-		}
-
-		getLog().debug("qtdBlockers : " + qtdBlockers);
-		if (StringUtils.isNotBlank(qtdBlockers)) {
-			blockers = Integer.valueOf(qtdBlockers);
-		}
-
-		getLog().debug("qtdMajors : " + qtdMajors);
-		if (StringUtils.isNotBlank(qtdMajors)) {
-			majors = Integer.valueOf(qtdMajors);
-		}
-
-		getLog().debug("qtdMinors : " + qtdMinors);
-		if (StringUtils.isNotBlank(qtdMinors)) {
-			minors = Integer.valueOf(qtdMinors);
-		}
-
-		return new QueryAnalysisDTO(reportPath, blockers, vulnerabilities, majors, minors);
-
 	}
 
 	/**

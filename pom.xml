@@ -19,9 +19,6 @@
 		<maven.signing.skip>true</maven.signing.skip>
 
 		<!-- External libs -->
-		<maven-plugin-api.version>3.3.9</maven-plugin-api.version>
-		<maven-project.version>2.2.1</maven-project.version>
-		<maven-plugin-annotations.version>3.4</maven-plugin-annotations.version>
 		<jackson-databind.version>2.8.1</jackson-databind.version>
 		<commons-io.version>2.5</commons-io.version>
 		<commons-collections4.version>4.1</commons-collections4.version>
@@ -30,6 +27,9 @@
 		<jgitflow.version>1.0-m5.1</jgitflow.version>
 
 		<!-- Maven dependencies -->
+		<maven-plugin-api.version>3.3.9</maven-plugin-api.version>
+		<maven-project.version>3.0-alpha-2</maven-project.version>
+		<maven-plugin-annotations.version>3.4</maven-plugin-annotations.version>
 		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
 		<maven-plugin-plugin.version>3.4</maven-plugin-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
