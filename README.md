@@ -62,12 +62,12 @@ To break maven compilation in case of to many issues founded by severity, it's n
 			<groupId>br.com.sonarpreviewbreak</groupId>
 			<artifactId>sonar-preview-break-maven-plugin</artifactId>
 			<version>0.1</version>
-      <configuration>
-        <qtdVulnerabilities>0</qtdVulnerabilities>
+      			<configuration>
+			        <qtdVulnerabilities>0</qtdVulnerabilities>
 				<qtdBlockers>0</qtdBlockers>
 				<qtdMajors>5</qtdMajors>
-        <qtdMinors>20</qtdMinors>
-      </configuration>
+			        <qtdMinors>20</qtdMinors>
+			</configuration>
 		</plugin>
 	</plugins>
 </build>
