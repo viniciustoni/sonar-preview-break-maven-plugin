@@ -66,7 +66,7 @@ To break maven compilation in case of to many issues founded by severity, it's n
 					<maxVulnerabilities>0</maxVulnerabilities>
 					<maxBlockers>0</maxBlockers>
 					<maxMajors>5</maxMajors>
-			      <maxMinors>20</maxMinors>
+			      		<maxMinors>20</maxMinors>
 			</configuration>
 		</plugin>
 	</plugins>
@@ -76,7 +76,9 @@ To break maven compilation in case of to many issues founded by severity, it's n
 # Developers
 
 Auhor: Vinicius Antonio Gai
+
 Since: 25/10/2016
+
 Version: 0.1
 
 # Release notes
