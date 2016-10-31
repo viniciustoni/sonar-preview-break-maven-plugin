@@ -25,6 +25,9 @@ public class IssuesDTO implements Serializable {
 
 	@JsonProperty("component")
 	private String component;
+	
+	@JsonProperty("line")
+	private int line;
 
 	@JsonProperty("message")
 	private String message;
@@ -136,5 +139,15 @@ public class IssuesDTO implements Serializable {
 
 		this.creationDate = creationDate;
 	}
-
+	
+	public int getLine() {
+	
+		return line;
+	}
+	
+	public void setLine(int line) {
+	
+		this.line = line;
+	}
+	
 }

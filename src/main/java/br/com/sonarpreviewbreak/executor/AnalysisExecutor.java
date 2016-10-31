@@ -3,6 +3,7 @@ package br.com.sonarpreviewbreak.executor;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,15 +69,23 @@ public class AnalysisExecutor {
 		ResultAnalysisDTO resultAnalysisDTO = ResultAnalysisDTO.createSuccess();
 
 		if (CollectionUtils.isNotEmpty(newIssues)) {
-			try {
-				analysisQualityGates(newIssues, Severity.BLOCKER, queryAnalysisDTO.getMaxBlockers());
-				analysisQualityGates(newIssues, Severity.CRITICAL, queryAnalysisDTO.getMaxVulnerabilities());
-				analysisQualityGates(newIssues, Severity.MAJOR, queryAnalysisDTO.getMaxMajors());
-				analysisQualityGates(newIssues, Severity.MINOR, queryAnalysisDTO.getMaxMinors());
-			} catch (SonarAnalysisException e) {
-				log.debug("Error to analisys log.", e);
-				resultAnalysisDTO = ResultAnalysisDTO.createError(e.getAnalisysMessage());
+			
+			List<String> errorMessages = new ArrayList<>();
+			
+			analysisQualityGates(newIssues, Severity.BLOCKER, queryAnalysisDTO.getMaxBlockers(), errorMessages);
+			analysisQualityGates(newIssues, Severity.CRITICAL, queryAnalysisDTO.getMaxVulnerabilities(), errorMessages);
+			analysisQualityGates(newIssues, Severity.MAJOR, queryAnalysisDTO.getMaxMajors(), errorMessages);
+			analysisQualityGates(newIssues, Severity.MINOR, queryAnalysisDTO.getMaxMinors(), errorMessages);
+			
+			if(!errorMessages.isEmpty()) {
+				StringBuilder message = new StringBuilder();
+				message.append(System.lineSeparator()).append(System.lineSeparator());
+				for(String errorMessage : errorMessages) {
+					message.append(errorMessage).append(System.lineSeparator());
+				}
+				resultAnalysisDTO = ResultAnalysisDTO.createError(message.toString());
 			}
+			
 		}
 
 		return resultAnalysisDTO;
@@ -95,17 +104,21 @@ public class AnalysisExecutor {
 	 *             Exception throwing when number of issues greater then max
 	 *             quantity;
 	 */
-	private void analysisQualityGates(final List<IssuesDTO> newIssues, final Severity severity, final Integer maxMaxIssues)
-			throws SonarAnalysisException {
+	private void analysisQualityGates(final List<IssuesDTO> newIssues, final Severity severity, final Integer maxMaxIssues, List<String> errorMessages) {
+			
 
-		final long quantity = newIssues.stream().filter(issue -> severity.equals(issue.getSeverity())).count();
+		List<IssuesDTO> severityIssues = newIssues.stream().filter(issue -> severity.equals(issue.getSeverity())).collect(Collectors.toList()); 
+		final long quantity = severityIssues.size();
 		
 		log.debug("Analysis severity: " + severity);
 		log.debug("Analysis qtdMaxIssues: " + maxMaxIssues);
 		log.debug("Analysis quantity: " + quantity);
 		
 		if (maxMaxIssues != null && quantity > maxMaxIssues.longValue()) {
-			throw new SonarAnalysisException(MessageFormat.format(ERROR_MESSAGE_QUALITY_GATES, severity.name(), maxMaxIssues, quantity));
+			
+			this.logNewIssues(severityIssues, severity);
+			
+			errorMessages.add(MessageFormat.format(ERROR_MESSAGE_QUALITY_GATES, severity.name(), maxMaxIssues, quantity));
 		}
 	}
 
@@ -159,6 +172,33 @@ public class AnalysisExecutor {
 			throw new SonarPreviewBreakException("Erro to convert json to PreviewDTO", e);
 		}
 
+	}
+	
+	/**
+	 * Log issues
+	 * @param issues
+	 */
+	private void logNewIssues(final List<IssuesDTO> issues, final Severity severity){
+		
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(System.lineSeparator())
+			.append(System.lineSeparator())
+			.append("------------- " + severity + " Issues  --------------------").append(System.lineSeparator())
+			.append(System.lineSeparator());
+		
+		for(IssuesDTO issue : issues) {
+
+			builder.append(issue.getSeverity()).append(": ").append(issue.getMessage()).append(System.lineSeparator());
+			builder.append(issue.getComponent().split(":")[2]).append(" at line ").append(issue.getLine()).append(System.lineSeparator())
+				.append(System.lineSeparator());
+			
+		}
+		
+		builder.append("-------------------------------------------").append(System.lineSeparator());
+		
+		log.info(builder.toString());
+		
 	}
 
 }
