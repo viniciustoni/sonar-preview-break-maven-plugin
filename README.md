@@ -80,4 +80,5 @@ Version: 0.1
 # Release notes
 
 0.2 - Show in the log, error, class and line found on analysis
+
 0.1 - New beta version.
