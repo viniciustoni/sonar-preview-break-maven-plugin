@@ -2,7 +2,7 @@
 
 Sonar-preview-break it's a maven plugin to run together the sonar:sonar plugin with preview mode on.
 
-When the sonar:sonar plugin was executing with preview mode, the plugin has a parameter(sonar.report.export.path) to create a Json file with all issues found after execution, so after that sonar-preview-break will read the json file and analysis all new issues(in json file has a list of issues, inside all object has a param named with isNew), the analysis is a count about 4 types of severity:
+When the sonar:sonar plugin was executing with preview mode, the plugin has a parameter(sonar.report.export.path) to create a Json file with all issues found after execution, so after that sonar-preview-break will read the json file and analysis all new issues(in json file, there is a list of issues, inside all object has a param named with isNew), the analysis is a count about 4 types of severity:
 
 * Vulnerability
 * Blockers
